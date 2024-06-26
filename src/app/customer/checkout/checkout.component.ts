@@ -16,7 +16,7 @@ export class CheckoutComponent implements OnInit {
   public cart: Cart[] | undefined
   public totalPrice: number | undefined
   public addressForm : FormGroup
-  constructor(private fb: FormBuilder, private shopService: ShopService, private router: Router,public dialog: MatDialog) { 
+  constructor(private fb: FormBuilder, private shopService: ShopService, private router: Router,public dialog: MatDialog) {
     this.addressForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       address: ['', Validators.required],
@@ -40,11 +40,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   submitOrder() {
-    // let addressDetails = this.addressForm.value as Order
-    // if(this.totalPrice){
-    //   let orderData:Order = { ...addressDetails, cartTotal: this.totalPrice}
 
-    // }
     if (this.addressForm.valid) {
       const formData = this.addressForm.value;
       console.log(formData);
@@ -53,13 +49,16 @@ export class CheckoutComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe((result: any) => {
-        if (result) { 
-          this.cart?.forEach((item) => {
-            this.shopService.removeItemFromCart(item.productId).subscribe((res) => {
-              // console.log(res);
-              this.shopService.getCartCount()
-            })
-          })
+        if (result) {
+
+
+
+             this.shopService.emptyCart().subscribe((res) => {
+               // console.log(res);
+                this.shopService.getCartCount()
+
+             })
+
           this.router.navigate(['/']);
         }
       });

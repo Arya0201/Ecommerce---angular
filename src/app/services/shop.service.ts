@@ -90,7 +90,7 @@ export class ShopService {
 
   emptyCart(){
     let Headers = this.getHeaders()
-    return this.http.put<Cart>(`${this.url}carts/empty-cart`, null, { headers: Headers })
+    return this.http.delete<Cart>(`${this.url}carts/delete-cart`,  { headers: Headers })
     .pipe(catchError(this.errorHandler))
   }
 
